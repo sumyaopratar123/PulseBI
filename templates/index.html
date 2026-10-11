@@ -1,1554 +1,3105 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
+
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>PulseBI — Universal Business Analytics</title>
+    <meta charset="UTF-8">
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+
+    <title>PulseBI — Universal Business Analytics</title>
+
+
+
+    <link rel="stylesheet"
+
+          href="{{ url_for('static', filename='style.css') }}">
+
+
+
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
 </head>
+
+
 
 <body>
 
+
+
 <div class="app-shell">
 
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
 
-    <aside class="sidebar">
 
-        <div class="brand">
+    <!-- =====================================================
 
-            <div class="brand-icon">
-                P
-            </div>
+         SIDEBAR
 
-            <div class="brand-text">
-                <h2>PulseBI</h2>
-                <span>UNIVERSAL ANALYTICS</span>
-            </div>
+    ====================================================== -->
 
-        </div>
+
+
+    <aside class="sidebar">
+
+
+
+        <a href="/" class="brand" aria-label="PulseBI home" style="text-decoration:none;color:inherit;cursor:pointer;">
+
+
+
+            <div class="brand-icon">
+
+                P
+
+            </div>
+
+
+
+            <div class="brand-text">
+
+                <h2>PulseBI</h2>
+
+                <span>UNIVERSAL ANALYTICS</span>
+
+            </div>
+
+
+
+        </a>
 
         <div class="workspace">
 
-            <span class="workspace-title">
-                WORKSPACE
-            </span>
 
-            <button class="side-btn active"
-                    onclick="showTab('overview', this)">
 
-                <b>⌂</b>
-                <span>Overview</span>
+            <span class="workspace-title">
 
-            </button>
+                WORKSPACE
 
-            <button class="side-btn"
-                    onclick="showTab('analytics', this)">
+            </span>
 
-                <b>⌁</b>
-                <span>Analytics</span>
 
-            </button>
 
-            <button class="side-btn"
-                    onclick="showTab('data', this)">
+            <button class="side-btn active"
 
-                <b>▦</b>
-                <span>Data Explorer</span>
+                    onclick="showTab('overview', this)">
 
-            </button>
 
-            <button class="side-btn"
-                    onclick="showTab('insights', this)">
 
-                <b>✦</b>
-                <span>AI Insights</span>
+                <b>⌂</b>
 
-            </button>
+                <span>Overview</span>
 
-            <button class="side-btn"
-                    onclick="showTab('health', this)">
 
-                <b>◈</b>
-                <span>Data Health</span>
 
-            </button>
+            </button>
 
-        </div>
 
-        <div class="sidebar-bottom">
 
-            <div class="mini-card">
+            <button class="side-btn"
 
-                <span>DATA ENGINE</span>
+                    onclick="showTab('analytics', this)">
 
-                <strong>● ACTIVE</strong>
 
-                <div class="status">
-                    <i></i>
-                    Analysis engine ready
-                </div>
 
-            </div>
+                <b>⌁</b>
 
-        </div>
+                <span>Analytics</span>
 
-    </aside>
 
 
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
+            </button>
 
-    <main class="main">
 
-        <!-- TOPBAR -->
 
-        <header class="topbar">
+            <button class="side-btn"
 
-            <div>
+                    onclick="showTab('data', this)">
 
-                <span class="eyebrow">
-                    BUSINESS INTELLIGENCE PLATFORM
-                </span>
 
-                <h1>
-                    {% if result %}
-                        Executive Dashboard
-                    {% else %}
-                        Turn your data into decisions.
-                    {% endif %}
-                </h1>
 
-            </div>
+                <b>▦</b>
 
+                <span>Data Explorer</span>
 
-            <div class="top-actions">
 
-                {% if result %}
 
-                <div class="file-pill">
+            </button>
 
-                    <span class="file-dot"></span>
 
-                    <span class="filename-text">
-                        {{ filename }}
-                    </span>
 
-                </div>
+            <button class="side-btn"
 
-                <!-- PDF BUTTON -->
+                    onclick="showTab('insights', this)">
 
-                <a href="{{ url_for('download_pdf', filename=filename) }}"
-                   class="pdf-btn">
 
-                    <span>↓</span>
-                    Download PDF
 
-                </a>
+                <b>✦</b>
 
-                {% endif %}
+                <span>AI Insights</span>
 
 
-                <button class="upload-small"
-                        onclick="showTab('upload')">
 
-                    + New Analysis
+            </button>
 
-                </button>
 
-            </div>
 
-        </header>
+            <button class="side-btn"
 
+                    onclick="showTab('health', this)">
 
-        <!-- =================================================
-             UPLOAD
-        ================================================== -->
 
-        <section id="upload"
-                 class="tab {% if not result %}active{% endif %}">
 
-            <div class="welcome">
+                <b>◈</b>
 
-                <div class="welcome-content">
+                <span>Data Health</span>
 
-                    <span class="eyebrow">
-                        WELCOME TO PULSEBI
-                    </span>
 
-                    <h2>
-                        Understand your business
-                        <span>at a glance.</span>
-                    </h2>
 
-                    <p>
-                        Upload any Excel dataset and transform raw
-                        spreadsheets into interactive analytics,
-                        business insights, data quality reports and
-                        actionable growth recommendations.
-                    </p>
+            </button>
 
 
-                    <div class="feature-list">
 
-                        <div class="feature-item">
-                            <span>✓</span>
-                            Automatic column detection
-                        </div>
+        </div>
 
-                        <div class="feature-item">
-                            <span>✓</span>
-                            Revenue & profit analytics
-                        </div>
 
-                        <div class="feature-item">
-                            <span>✓</span>
-                            Interactive business charts
-                        </div>
 
-                        <div class="feature-item">
-                            <span>✓</span>
-                            AI-style business insights
-                        </div>
+        <div class="sidebar-bottom">
 
-                    </div>
 
-                </div>
 
+            <div class="mini-card">
 
-                <div class="upload-panel">
 
-                    <form action="/analyze"
-                          method="POST"
-                          enctype="multipart/form-data">
 
-                        <label class="drop-zone">
+                <span>DATA ENGINE</span>
 
-                            <input type="file"
-                                   name="file"
-                                   id="excelFile"
-                                   accept=".xlsx,.xls"
-                                   required
-                                   onchange="showFileName(this)">
 
-                            <div class="upload-symbol">
-                                ↑
-                            </div>
 
-                            <h3>
-                                Drop Excel file here
-                            </h3>
+                <strong>● ACTIVE</strong>
 
-                            <p>
-                                or click to browse
-                            </p>
 
-                            <small>
-                                XLSX / XLS • Business datasets
-                            </small>
 
-                            <div id="selected-file"
-                                 class="selected-file">
-                            </div>
+                <div class="status">
 
-                        </label>
+                    <i></i>
 
+                    Analysis engine ready
 
-                        <button class="analyze-btn"
-                                type="submit">
+                </div>
 
-                            <span>
-                                Run Business Analysis
-                            </span>
 
-                            <b>
-                                →
-                            </b>
 
-                        </button>
+            </div>
 
-                    </form>
 
-                </div>
 
-            </div>
+        </div>
 
-        </section>
 
 
-        {% if result %}
+    </aside>
 
-        <!-- =================================================
-             OVERVIEW
-        ================================================== -->
 
-        <section id="overview"
-                 class="tab active">
 
-            <div class="section-head">
 
-                <div>
 
-                    <span class="eyebrow">
-                        EXECUTIVE VIEW
-                    </span>
+    <!-- =====================================================
 
-                    <h2>
-                        Business performance
-                    </h2>
+         MAIN
 
-                    <p>
-                        High-level performance summary generated
-                        automatically from your uploaded dataset.
-                    </p>
+    ====================================================== -->
 
-                </div>
 
-                <div class="live-badge">
-                    <i></i>
-                    LIVE ANALYSIS
-                </div>
 
-            </div>
+    <main class="main">
 
 
-            <!-- KPI GRID -->
 
-            <div class="kpi-grid">
+        <!-- TOPBAR -->
 
-                <!-- REVENUE -->
 
-                <div class="kpi-card hero-kpi">
 
-                    <div class="kpi-top">
+        <header class="topbar">
 
-                        <span>
-                            TOTAL REVENUE
-                        </span>
 
-                        <div class="kpi-icon">
-                            ₹
-                        </div>
 
-                    </div>
+            <div>
 
-                    <strong>
-                        ₹{{ "{:,.0f}".format(result.kpis.revenue) }}
-                    </strong>
 
-                    <small>
-                        Total sales / revenue detected
-                    </small>
 
-                </div>
+                <span class="eyebrow">
 
+                    BUSINESS INTELLIGENCE PLATFORM
 
-                <!-- PROFIT -->
+                </span>
 
-                <div class="kpi-card">
 
-                    <div class="kpi-top">
 
-                        <span>
-                            TOTAL PROFIT
-                        </span>
+                <h1>
 
-                        <div class="kpi-icon green">
-                            ↗
-                        </div>
+                    {% if result %}
 
-                    </div>
+                        Executive Dashboard
 
-                    <strong>
-                        ₹{{ "{:,.0f}".format(result.kpis.profit) }}
-                    </strong>
+                    {% else %}
 
-                    <small>
-                        Total calculated profit
-                    </small>
+                        Turn your data into decisions.
 
-                </div>
+                    {% endif %}
 
+                </h1>
 
-                <!-- MARGIN -->
 
-                <div class="kpi-card">
 
-                    <div class="kpi-top">
+            </div>
 
-                        <span>
-                            PROFIT MARGIN
-                        </span>
 
-                        <div class="kpi-icon purple">
-                            %
-                        </div>
 
-                    </div>
 
-                    <strong>
-                        {{ "{:.1f}".format(result.kpis.margin) }}%
-                    </strong>
 
-                    <small>
-                        Revenue-to-profit efficiency
-                    </small>
+            <div class="top-actions">
 
-                </div>
 
 
-                <!-- QUANTITY -->
+                {% if result %}
 
-                <div class="kpi-card">
 
-                    <div class="kpi-top">
 
-                        <span>
-                            QUANTITY
-                        </span>
+                <div class="file-pill">
 
-                        <div class="kpi-icon orange">
-                            #
-                        </div>
 
-                    </div>
 
-                    <strong>
-                        {{ "{:,.0f}".format(result.kpis.quantity) }}
-                    </strong>
+                    <span class="file-dot"></span>
 
-                    <small>
-                        Total units / quantity detected
-                    </small>
 
-                </div>
 
-            </div>
+                    <span class="filename-text">
 
+                        {{ filename }}
 
-            <!-- SECONDARY METRICS -->
+                    </span>
 
-            <div class="secondary-grid">
 
-                <div class="metric-strip">
 
-                    <span>RECORDS</span>
+                </div>
 
-                    <strong>
-                        {{ result.kpis.rows }}
-                    </strong>
 
-                </div>
 
+                <!-- PDF BUTTON -->
 
-                <div class="metric-strip">
 
-                    <span>COLUMNS</span>
 
-                    <strong>
-                        {{ result.kpis.columns }}
-                    </strong>
+                <a href="{{ url_for('download_pdf', filename=filename) }}"
 
-                </div>
+                   class="pdf-btn">
 
 
-                <div class="metric-strip">
 
-                    <span>MISSING VALUES</span>
+                    <span>↓</span>
 
-                    <strong>
-                        {{ result.kpis.missing }}
-                    </strong>
+                    Download PDF
 
-                </div>
 
 
-                <div class="metric-strip">
+                </a>
 
-                    <span>DUPLICATES</span>
 
-                    <strong>
-                        {{ result.kpis.duplicates }}
-                    </strong>
 
-                </div>
+                {% endif %}
 
-            </div>
 
 
-            <!-- DETECTED FIELDS -->
 
-            <div class="detected-card">
 
-                <div>
+                <button class="upload-small"
 
-                    <span class="eyebrow">
-                        AUTO DETECTION
-                    </span>
+                        onclick="showTab('upload')">
 
-                    <h3>
-                        Business fields detected
-                    </h3>
 
-                </div>
 
+                    + New Analysis
 
-                <div class="detected-items">
 
-                    {% if result.detected.sales_column %}
 
-                    <div>
+                </button>
 
-                        <span>
-                            REVENUE / SALES
-                        </span>
 
-                        <strong>
-                            {{ result.detected.sales_column }}
-                        </strong>
 
-                    </div>
+            </div>
 
-                    {% endif %}
 
 
-                    {% if result.detected.profit_column %}
+        </header>
 
-                    <div>
 
-                        <span>
-                            PROFIT
-                        </span>
 
-                        <strong>
-                            {{ result.detected.profit_column }}
-                        </strong>
 
-                    </div>
 
-                    {% endif %}
+        <!-- =================================================
 
+             UPLOAD
 
-                    {% if result.detected.quantity_column %}
+        ================================================== -->
 
-                    <div>
 
-                        <span>
-                            QUANTITY
-                        </span>
 
-                        <strong>
-                            {{ result.detected.quantity_column }}
-                        </strong>
+        <section id="upload"
 
-                    </div>
+                 class="tab {% if not result %}active{% endif %}">
 
-                    {% endif %}
 
 
-                    {% if result.detected.product_column %}
+            <div class="welcome">
 
-                    <div>
 
-                        <span>
-                            PRODUCT
-                        </span>
 
-                        <strong>
-                            {{ result.detected.product_column }}
-                        </strong>
+                <div class="welcome-content">
 
-                    </div>
 
-                    {% endif %}
 
+                    <span class="eyebrow">
 
-                    {% if result.detected.category_column %}
+                        WELCOME TO PULSEBI
 
-                    <div>
+                    </span>
 
-                        <span>
-                            CATEGORY
-                        </span>
 
-                        <strong>
-                            {{ result.detected.category_column }}
-                        </strong>
 
-                    </div>
+                    <h2>
 
-                    {% endif %}
+                        Understand your business
 
+                        <span>at a glance.</span>
 
-                    {% if result.detected.region_column %}
+                    </h2>
 
-                    <div>
 
-                        <span>
-                            REGION
-                        </span>
 
-                        <strong>
-                            {{ result.detected.region_column }}
-                        </strong>
+                    <p>
 
-                    </div>
+                        Upload any Excel dataset and transform raw
 
-                    {% endif %}
+                        spreadsheets into interactive analytics,
 
+                        business insights, data quality reports and
 
-                    {% if result.detected.date_column %}
+                        actionable growth recommendations.
 
-                    <div>
+                    </p>
 
-                        <span>
-                            DATE
-                        </span>
 
-                        <strong>
-                            {{ result.detected.date_column }}
-                        </strong>
 
-                    </div>
 
-                    {% endif %}
 
-                </div>
+                    <div class="feature-list">
 
-            </div>
 
 
-            <!-- QUICK ACTIONS -->
+                        <div class="feature-item">
 
-            <div class="quick-actions">
+                            <span>✓</span>
 
-                <button onclick="showTab('analytics')">
-                    <span>⌁</span>
-                    Explore Analytics
-                </button>
+                            Automatic column detection
 
-                <button onclick="showTab('insights')">
-                    <span>✦</span>
-                    View Business Insights
-                </button>
+                        </div>
 
-                <button onclick="showTab('data')">
-                    <span>▦</span>
-                    Explore Data
-                </button>
 
-                <a href="{{ url_for('download_pdf', filename=filename) }}"
-                   class="quick-pdf">
 
-                    <span>↓</span>
-                    Download PDF Report
+                        <div class="feature-item">
 
-                </a>
+                            <span>✓</span>
 
-            </div>
+                            Revenue & profit analytics
 
-        </section>
+                        </div>
 
 
-        <!-- =================================================
-             ANALYTICS
-        ================================================== -->
 
-        <section id="analytics"
-                 class="tab">
+                        <div class="feature-item">
 
-            <div class="section-head">
+                            <span>✓</span>
 
-                <div>
+                            Interactive business charts
 
-                    <span class="eyebrow">
-                        PERFORMANCE ANALYTICS
-                    </span>
+                        </div>
 
-                    <h2>
-                        Explore your numbers
-                    </h2>
 
-                    <p>
-                        Automatically generated interactive
-                        visualizations based on your dataset.
-                    </p>
 
-                </div>
+                        <div class="feature-item">
 
-            </div>
+                            <span>✓</span>
 
+                            AI-style business insights
 
-            {% if result.charts %}
+                        </div>
 
-            <div class="chart-grid">
 
-                {% for chart in result.charts %}
 
-                <article class="chart-card">
+                    </div>
 
-                    <div class="chart-head">
 
-                        <div>
 
-                            <span>
-                                ANALYTICS
-                            </span>
+                </div>
 
-                            <h3>
-                                {{ chart.title }}
-                            </h3>
 
-                        </div>
 
-                        <div class="chart-status">
-                            LIVE
-                        </div>
 
-                    </div>
 
+                <div class="upload-panel">
 
-                    <div id="chart-{{ loop.index }}"
-                         class="plot">
-                    </div>
 
 
-                    <script>
+                    <form action="/analyze"
 
-                        const chartData{{ loop.index }} =
-                            {{ chart.data | safe }};
+                          method="POST"
 
-                        Plotly.newPlot(
+                          enctype="multipart/form-data">
 
-                            "chart-{{ loop.index }}",
 
-                            chartData{{ loop.index }}.data,
 
-                            {
+                        <label class="drop-zone">
 
-                                ...chartData{{ loop.index }}.layout,
 
-                                paper_bgcolor: "transparent",
 
-                                plot_bgcolor: "transparent",
+                            <input type="file"
 
-                                font: {
-                                    color: "#8f9bad"
-                                },
+                                   name="file"
 
-                                margin: {
-                                    l: 50,
-                                    r: 25,
-                                    t: 25,
-                                    b: 55
-                                },
+                                   id="excelFile"
 
-                                xaxis: {
-                                    gridcolor:
-                                        "rgba(255,255,255,0.05)"
-                                },
+                                   accept=".xlsx,.xls"
 
-                                yaxis: {
-                                    gridcolor:
-                                        "rgba(255,255,255,0.05)"
-                                }
+                                   required
 
-                            },
+                                   onchange="showFileName(this)">
 
-                            {
-                                responsive: true,
-                                displayModeBar: false
-                            }
 
-                        );
 
-                    </script>
+                            <div class="upload-symbol">
 
-                </article>
+                                ↑
 
-                {% endfor %}
+                            </div>
 
-            </div>
 
-            {% else %}
 
-            <div class="empty-state">
+                            <h3>
 
-                <div>◌</div>
+                                Drop Excel file here
 
-                <h3>
-                    No visualizations available
-                </h3>
+                            </h3>
 
-                <p>
-                    The uploaded dataset does not contain enough
-                    numeric or business fields to generate charts.
-                </p>
 
-            </div>
 
-            {% endif %}
+                            <p>
 
-        </section>
+                                or click to browse
 
+                            </p>
 
-        <!-- =================================================
-             DATA EXPLORER
-        ================================================== -->
 
-        <section id="data"
-                 class="tab">
 
-            <div class="section-head">
+                            <small>
 
-                <div>
+                                XLSX / XLS • Business datasets
 
-                    <span class="eyebrow">
-                        DATA EXPLORER
-                    </span>
+                            </small>
 
-                    <h2>
-                        Your dataset
-                    </h2>
 
-                    <p>
-                        Search and inspect records from your uploaded
-                        Excel file.
-                    </p>
 
-                </div>
+                            <div id="selected-file"
 
-                <div class="record-count">
+                                 class="selected-file">
 
-                    {{ result.kpis.rows }}
-                    records
+                            </div>
 
-                </div>
 
-            </div>
 
+                        </label>
 
-            <div class="data-card">
 
-                <div class="table-toolbar">
 
-                    <div class="search-box">
 
-                        <span>
-                            🔍
-                        </span>
 
-                        <input
-                            id="tableSearch"
-                            type="text"
-                            placeholder="Search data..."
-                            onkeyup="searchTable()">
+                        <button class="analyze-btn"
 
-                    </div>
+                                type="submit">
 
-                    <span>
-                        Showing first 30 records
-                    </span>
 
-                </div>
 
+                            <span>
 
-                <div class="table-wrapper">
+                                Run Business Analysis
 
-                    {{ preview | safe }}
+                            </span>
 
-                </div>
 
-            </div>
 
-        </section>
+                            <b>
 
+                                →
 
-        <!-- =================================================
-             AI INSIGHTS
-        ================================================== -->
+                            </b>
 
-        <section id="insights"
-                 class="tab">
 
-            <div class="section-head">
 
-                <div>
+                        </button>
 
-                    <span class="eyebrow">
-                        INTELLIGENCE LAYER
-                    </span>
 
-                    <h2>
-                        What your data is telling you
-                    </h2>
 
-                    <p>
-                        Automated observations and actionable
-                        business growth recommendations.
-                    </p>
+                    </form>
 
-                </div>
 
-            </div>
 
+                </div>
 
-            <div class="insight-layout">
 
 
-                <!-- KEY INSIGHTS -->
+            </div>
 
-                <div class="insight-panel">
 
-                    <div class="panel-title">
 
-                        <div class="panel-icon blue">
-                            ✦
-                        </div>
+        </section>
 
-                        <div>
 
-                            <span>
-                                KEY INSIGHTS
-                            </span>
 
-                            <h3>
-                                Performance signals
-                            </h3>
 
-                        </div>
 
-                    </div>
+        {% if result %}
 
 
-                    <div class="insight-list">
 
-                        {% for insight in result.insights %}
+        <!-- =================================================
 
-                        <div class="insight-row">
+             OVERVIEW
 
-                            <div class="signal"></div>
+        ================================================== -->
 
-                            <p>
-                                {{ insight }}
-                            </p>
 
-                        </div>
 
-                        {% endfor %}
+        <section id="overview"
 
-                    </div>
+                 class="tab active">
 
-                </div>
 
 
-                <!-- GROWTH -->
+            <div class="section-head">
 
-                <div class="growth-panel">
 
-                    <div class="panel-title">
 
-                        <div class="panel-icon green">
-                            ↗
-                        </div>
+                <div>
 
-                        <div>
 
-                            <span>
-                                GROWTH ENGINE
-                            </span>
 
-                            <h3>
-                                Recommended actions
-                            </h3>
+                    <span class="eyebrow">
 
-                        </div>
+                        EXECUTIVE VIEW
 
-                    </div>
+                    </span>
 
 
-                    <div class="growth-list">
 
-                        {% for suggestion in result.suggestions %}
+                    <h2>
 
-                        <div class="growth-row">
+                        Business performance
 
-                            <div class="number">
-                                {{ loop.index }}
-                            </div>
+                    </h2>
 
-                            <div>
 
-                                <strong>
-                                    Growth opportunity
-                                </strong>
 
-                                <p>
-                                    {{ suggestion }}
-                                </p>
+                    <p>
 
-                            </div>
+                        High-level performance summary generated
 
-                        </div>
+                        automatically from your uploaded dataset.
 
-                        {% endfor %}
+                    </p>
 
-                    </div>
 
-                </div>
 
-            </div>
+                </div>
 
 
-            <!-- STATISTICS -->
 
-            <div class="stats-panel">
+                <div class="live-badge">
 
-                <div class="panel-title">
+                    <i></i>
 
-                    <div class="panel-icon purple">
-                        Σ
-                    </div>
+                    LIVE ANALYSIS
 
-                    <div>
+                </div>
 
-                        <span>
-                            STATISTICAL ENGINE
-                        </span>
 
-                        <h3>
-                            Numeric column analysis
-                        </h3>
 
-                    </div>
+            </div>
 
-                </div>
 
 
-                <div class="stats-table-wrapper">
 
-                    <table class="stats-table">
 
-                        <thead>
+            <!-- KPI GRID -->
 
-                        <tr>
 
-                            <th>Column</th>
-                            <th>Mean</th>
-                            <th>Median</th>
-                            <th>Minimum</th>
-                            <th>Maximum</th>
-                            <th>Total</th>
 
-                        </tr>
+            <div class="kpi-grid">
 
-                        </thead>
 
 
-                        <tbody>
+                <!-- REVENUE -->
 
-                        {% for stat in result.statistics %}
 
-                        <tr>
 
-                            <td>
-                                <strong>
-                                    {{ stat.column }}
-                                </strong>
-                            </td>
+                <div class="kpi-card hero-kpi">
 
-                            <td>
-                                {{ stat.mean }}
-                            </td>
 
-                            <td>
-                                {{ stat.median }}
-                            </td>
 
-                            <td>
-                                {{ stat.min }}
-                            </td>
+                    <div class="kpi-top">
 
-                            <td>
-                                {{ stat.max }}
-                            </td>
 
-                            <td>
-                                {{ stat.sum }}
-                            </td>
 
-                        </tr>
+                        <span>
 
-                        {% endfor %}
+                            TOTAL REVENUE
 
-                        </tbody>
+                        </span>
 
-                    </table>
 
-                </div>
 
-            </div>
+                        <div class="kpi-icon">
 
-        </section>
+                            ₹
 
+                        </div>
 
-        <!-- =================================================
-             DATA HEALTH
-        ================================================== -->
 
-        <section id="health"
-                 class="tab">
 
-            <div class="section-head">
+                    </div>
 
-                <div>
 
-                    <span class="eyebrow">
-                        DATA QUALITY
-                    </span>
 
-                    <h2>
-                        Data health
-                    </h2>
+                    <strong>
 
-                    <p>
-                        Quality checks performed on your uploaded
-                        business dataset.
-                    </p>
+                        ₹{{ "{:,.0f}".format(result.kpis.revenue) }}
 
-                </div>
+                    </strong>
 
-            </div>
 
 
-            <div class="health-grid">
+                    <small>
 
+                        Total sales / revenue detected
 
-                <!-- ROWS -->
+                    </small>
 
-                <div class="health-card">
 
-                    <div class="health-icon good">
-                        ✓
-                    </div>
 
-                    <span>
-                        DATASET SIZE
-                    </span>
+                </div>
 
-                    <strong>
-                        {{ result.kpis.rows }}
-                    </strong>
 
-                    <p>
-                        Records analyzed
-                    </p>
 
-                </div>
 
 
-                <!-- MISSING -->
+                <!-- PROFIT -->
 
-                <div class="health-card">
 
-                    <div class="health-icon
-                    {% if result.kpis.missing > 0 %}
-                        warning
-                    {% else %}
-                        good
-                    {% endif %}">
 
-                        {% if result.kpis.missing > 0 %}
-                            !
-                        {% else %}
-                            ✓
-                        {% endif %}
+                <div class="kpi-card">
 
-                    </div>
 
-                    <span>
-                        MISSING VALUES
-                    </span>
 
-                    <strong>
-                        {{ result.kpis.missing }}
-                    </strong>
+                    <div class="kpi-top">
 
-                    <p>
 
-                        {% if result.kpis.missing == 0 %}
-                            Dataset is complete
-                        {% else %}
-                            Review missing records
-                        {% endif %}
 
-                    </p>
+                        <span>
 
-                </div>
+                            TOTAL PROFIT
 
+                        </span>
 
-                <!-- DUPLICATES -->
 
-                <div class="health-card">
 
-                    <div class="health-icon
-                    {% if result.kpis.duplicates > 0 %}
-                        warning
-                    {% else %}
-                        good
-                    {% endif %}">
+                        <div class="kpi-icon green">
 
-                        {% if result.kpis.duplicates > 0 %}
-                            !
-                        {% else %}
-                            ✓
-                        {% endif %}
+                            ↗
 
-                    </div>
+                        </div>
 
-                    <span>
-                        DUPLICATES
-                    </span>
 
-                    <strong>
-                        {{ result.kpis.duplicates }}
-                    </strong>
 
-                    <p>
+                    </div>
 
-                        {% if result.kpis.duplicates == 0 %}
-                            No duplicates detected
-                        {% else %}
-                            Duplicate records found
-                        {% endif %}
 
-                    </p>
 
-                </div>
+                    <strong>
 
+                        ₹{{ "{:,.0f}".format(result.kpis.profit) }}
 
-                <!-- NUMERIC -->
+                    </strong>
 
-                <div class="health-card">
 
-                    <div class="health-icon good">
-                        Σ
-                    </div>
 
-                    <span>
-                        NUMERIC FIELDS
-                    </span>
+                    <small>
 
-                    <strong>
-                        {{ result.kpis.numeric_columns }}
-                    </strong>
+                        Total calculated profit
 
-                    <p>
-                        Analyzable numeric metrics
-                    </p>
+                    </small>
 
-                </div>
 
-            </div>
 
+                </div>
 
-            <!-- HEALTH SUMMARY -->
 
-            <div class="health-summary">
 
-                <div class="health-score">
 
-                    <span>
-                        OVERALL DATA HEALTH
-                    </span>
 
+                <!-- MARGIN -->
 
-                    {% if result.kpis.missing == 0
-                          and result.kpis.duplicates == 0 %}
 
-                        <strong>
-                            Excellent
-                        </strong>
 
-                        <p>
-                            Your dataset is clean and ready
-                            for business analysis.
-                        </p>
+                <div class="kpi-card">
 
-                    {% else %}
 
-                        <strong class="warning-text">
-                            Needs Attention
-                        </strong>
 
-                        <p>
-                            Review the highlighted data quality
-                            issues before making important decisions.
-                        </p>
+                    <div class="kpi-top">
 
-                    {% endif %}
 
-                </div>
 
+                        <span>
 
-                <div class="health-details">
+                            PROFIT MARGIN
 
-                    <div>
-                        <span>ROWS</span>
-                        <strong>
-                            {{ result.kpis.rows }}
-                        </strong>
-                    </div>
+                        </span>
 
-                    <div>
-                        <span>COLUMNS</span>
-                        <strong>
-                            {{ result.kpis.columns }}
-                        </strong>
-                    </div>
 
-                    <div>
-                        <span>MISSING</span>
-                        <strong>
-                            {{ result.kpis.missing }}
-                        </strong>
-                    </div>
 
-                    <div>
-                        <span>DUPLICATES</span>
-                        <strong>
-                            {{ result.kpis.duplicates }}
-                        </strong>
-                    </div>
+                        <div class="kpi-icon purple">
 
-                </div>
+                            %
 
-            </div>
+                        </div>
 
-        </section>
 
-        {% endif %}
 
-    </main>
+                    </div>
+
+
+
+                    <strong>
+
+                        {{ "{:.1f}".format(result.kpis.margin) }}%
+
+                    </strong>
+
+
+
+                    <small>
+
+                        Revenue-to-profit efficiency
+
+                    </small>
+
+
+
+                </div>
+
+
+
+
+
+                <!-- QUANTITY -->
+
+
+
+                <div class="kpi-card">
+
+
+
+                    <div class="kpi-top">
+
+
+
+                        <span>
+
+                            QUANTITY
+
+                        </span>
+
+
+
+                        <div class="kpi-icon orange">
+
+                            #
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    <strong>
+
+                        {{ "{:,.0f}".format(result.kpis.quantity) }}
+
+                    </strong>
+
+
+
+                    <small>
+
+                        Total units / quantity detected
+
+                    </small>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <!-- SECONDARY METRICS -->
+
+
+
+            <div class="secondary-grid">
+
+
+
+                <div class="metric-strip">
+
+
+
+                    <span>RECORDS</span>
+
+
+
+                    <strong>
+
+                        {{ result.kpis.rows }}
+
+                    </strong>
+
+
+
+                </div>
+
+
+
+
+
+                <div class="metric-strip">
+
+
+
+                    <span>COLUMNS</span>
+
+
+
+                    <strong>
+
+                        {{ result.kpis.columns }}
+
+                    </strong>
+
+
+
+                </div>
+
+
+
+
+
+                <div class="metric-strip">
+
+
+
+                    <span>MISSING VALUES</span>
+
+
+
+                    <strong>
+
+                        {{ result.kpis.missing }}
+
+                    </strong>
+
+
+
+                </div>
+
+
+
+
+
+                <div class="metric-strip">
+
+
+
+                    <span>DUPLICATES</span>
+
+
+
+                    <strong>
+
+                        {{ result.kpis.duplicates }}
+
+                    </strong>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <!-- DETECTED FIELDS -->
+
+
+
+            <div class="detected-card">
+
+
+
+                <div>
+
+
+
+                    <span class="eyebrow">
+
+                        AUTO DETECTION
+
+                    </span>
+
+
+
+                    <h3>
+
+                        Business fields detected
+
+                    </h3>
+
+
+
+                </div>
+
+
+
+
+
+                <div class="detected-items">
+
+
+
+                    {% if result.detected.sales_column %}
+
+
+
+                    <div>
+
+
+
+                        <span>
+
+                            REVENUE / SALES
+
+                        </span>
+
+
+
+                        <strong>
+
+                            {{ result.detected.sales_column }}
+
+                        </strong>
+
+
+
+                    </div>
+
+
+
+                    {% endif %}
+
+
+
+
+
+                    {% if result.detected.profit_column %}
+
+
+
+                    <div>
+
+
+
+                        <span>
+
+                            PROFIT
+
+                        </span>
+
+
+
+                        <strong>
+
+                            {{ result.detected.profit_column }}
+
+                        </strong>
+
+
+
+                    </div>
+
+
+
+                    {% endif %}
+
+
+
+
+
+                    {% if result.detected.quantity_column %}
+
+
+
+                    <div>
+
+
+
+                        <span>
+
+                            QUANTITY
+
+                        </span>
+
+
+
+                        <strong>
+
+                            {{ result.detected.quantity_column }}
+
+                        </strong>
+
+
+
+                    </div>
+
+
+
+                    {% endif %}
+
+
+
+
+
+                    {% if result.detected.product_column %}
+
+
+
+                    <div>
+
+
+
+                        <span>
+
+                            PRODUCT
+
+                        </span>
+
+
+
+                        <strong>
+
+                            {{ result.detected.product_column }}
+
+                        </strong>
+
+
+
+                    </div>
+
+
+
+                    {% endif %}
+
+
+
+
+
+                    {% if result.detected.category_column %}
+
+
+
+                    <div>
+
+
+
+                        <span>
+
+                            CATEGORY
+
+                        </span>
+
+
+
+                        <strong>
+
+                            {{ result.detected.category_column }}
+
+                        </strong>
+
+
+
+                    </div>
+
+
+
+                    {% endif %}
+
+
+
+
+
+                    {% if result.detected.region_column %}
+
+
+
+                    <div>
+
+
+
+                        <span>
+
+                            REGION
+
+                        </span>
+
+
+
+                        <strong>
+
+                            {{ result.detected.region_column }}
+
+                        </strong>
+
+
+
+                    </div>
+
+
+
+                    {% endif %}
+
+
+
+
+
+                    {% if result.detected.date_column %}
+
+
+
+                    <div>
+
+
+
+                        <span>
+
+                            DATE
+
+                        </span>
+
+
+
+                        <strong>
+
+                            {{ result.detected.date_column }}
+
+                        </strong>
+
+
+
+                    </div>
+
+
+
+                    {% endif %}
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <!-- QUICK ACTIONS -->
+
+
+
+            <div class="quick-actions">
+
+
+
+                <button onclick="showTab('analytics')">
+
+                    <span>⌁</span>
+
+                    Explore Analytics
+
+                </button>
+
+
+
+                <button onclick="showTab('insights')">
+
+                    <span>✦</span>
+
+                    View Business Insights
+
+                </button>
+
+
+
+                <button onclick="showTab('data')">
+
+                    <span>▦</span>
+
+                    Explore Data
+
+                </button>
+
+
+
+                <a href="{{ url_for('download_pdf', filename=filename) }}"
+
+                   class="quick-pdf">
+
+
+
+                    <span>↓</span>
+
+                    Download PDF Report
+
+
+
+                </a>
+
+
+
+            </div>
+
+
+
+        </section>
+
+
+
+
+
+        <!-- =================================================
+
+             ANALYTICS
+
+        ================================================== -->
+
+
+
+        <section id="analytics"
+
+                 class="tab">
+
+
+
+            <div class="section-head">
+
+
+
+                <div>
+
+
+
+                    <span class="eyebrow">
+
+                        PERFORMANCE ANALYTICS
+
+                    </span>
+
+
+
+                    <h2>
+
+                        Explore your numbers
+
+                    </h2>
+
+
+
+                    <p>
+
+                        Automatically generated interactive
+
+                        visualizations based on your dataset.
+
+                    </p>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            {% if result.charts %}
+
+
+
+            <div class="chart-grid">
+
+
+
+                {% for chart in result.charts %}
+
+
+
+                <article class="chart-card">
+
+
+
+                    <div class="chart-head">
+
+
+
+                        <div>
+
+
+
+                            <span>
+
+                                ANALYTICS
+
+                            </span>
+
+
+
+                            <h3>
+
+                                {{ chart.title }}
+
+                            </h3>
+
+
+
+                        </div>
+
+
+
+                        <div class="chart-status">
+
+                            LIVE
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+                    <div id="chart-{{ loop.index }}"
+
+                         class="plot">
+
+                    </div>
+
+
+
+
+
+                    <script>
+
+
+
+                        const chartData{{ loop.index }} =
+
+                            {{ chart.data | safe }};
+
+
+
+                        Plotly.newPlot(
+
+
+
+                            "chart-{{ loop.index }}",
+
+
+
+                            chartData{{ loop.index }}.data,
+
+
+
+                            {
+
+
+
+                                ...chartData{{ loop.index }}.layout,
+
+
+
+                                paper_bgcolor: "transparent",
+
+
+
+                                plot_bgcolor: "transparent",
+
+
+
+                                font: {
+
+                                    color: "#8f9bad"
+
+                                },
+
+
+
+                                margin: {
+
+                                    l: 50,
+
+                                    r: 25,
+
+                                    t: 25,
+
+                                    b: 55
+
+                                },
+
+
+
+                                xaxis: {
+
+                                    gridcolor:
+
+                                        "rgba(255,255,255,0.05)"
+
+                                },
+
+
+
+                                yaxis: {
+
+                                    gridcolor:
+
+                                        "rgba(255,255,255,0.05)"
+
+                                }
+
+
+
+                            },
+
+
+
+                            {
+
+                                responsive: true,
+
+                                displayModeBar: false
+
+                            }
+
+
+
+                        );
+
+
+
+                    </script>
+
+
+
+                </article>
+
+
+
+                {% endfor %}
+
+
+
+            </div>
+
+
+
+            {% else %}
+
+
+
+            <div class="empty-state">
+
+
+
+                <div>◌</div>
+
+
+
+                <h3>
+
+                    No visualizations available
+
+                </h3>
+
+
+
+                <p>
+
+                    The uploaded dataset does not contain enough
+
+                    numeric or business fields to generate charts.
+
+                </p>
+
+
+
+            </div>
+
+
+
+            {% endif %}
+
+
+
+        </section>
+
+
+
+
+
+        <!-- =================================================
+
+             DATA EXPLORER
+
+        ================================================== -->
+
+
+
+        <section id="data"
+
+                 class="tab">
+
+
+
+            <div class="section-head">
+
+
+
+                <div>
+
+
+
+                    <span class="eyebrow">
+
+                        DATA EXPLORER
+
+                    </span>
+
+
+
+                    <h2>
+
+                        Your dataset
+
+                    </h2>
+
+
+
+                    <p>
+
+                        Search and inspect records from your uploaded
+
+                        Excel file.
+
+                    </p>
+
+
+
+                </div>
+
+
+
+                <div class="record-count">
+
+
+
+                    {{ result.kpis.rows }}
+
+                    records
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="data-card">
+
+
+
+                <div class="table-toolbar">
+
+
+
+                    <div class="search-box">
+
+
+
+                        <span>
+
+                            🔍
+
+                        </span>
+
+
+
+                        <input
+
+                            id="tableSearch"
+
+                            type="text"
+
+                            placeholder="Search data..."
+
+                            onkeyup="searchTable()">
+
+
+
+                    </div>
+
+
+
+                    <span>
+
+                        Showing first 30 records
+
+                    </span>
+
+
+
+                </div>
+
+
+
+
+
+                <div class="table-wrapper">
+
+
+
+                    {{ preview | safe }}
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </section>
+
+
+
+
+
+        <!-- =================================================
+
+             AI INSIGHTS
+
+        ================================================== -->
+
+
+
+        <section id="insights"
+
+                 class="tab">
+
+
+
+            <div class="section-head">
+
+
+
+                <div>
+
+
+
+                    <span class="eyebrow">
+
+                        INTELLIGENCE LAYER
+
+                    </span>
+
+
+
+                    <h2>
+
+                        What your data is telling you
+
+                    </h2>
+
+
+
+                    <p>
+
+                        Automated observations and actionable
+
+                        business growth recommendations.
+
+                    </p>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="insight-layout">
+
+
+
+
+
+                <!-- KEY INSIGHTS -->
+
+
+
+                <div class="insight-panel">
+
+
+
+                    <div class="panel-title">
+
+
+
+                        <div class="panel-icon blue">
+
+                            ✦
+
+                        </div>
+
+
+
+                        <div>
+
+
+
+                            <span>
+
+                                KEY INSIGHTS
+
+                            </span>
+
+
+
+                            <h3>
+
+                                Performance signals
+
+                            </h3>
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+                    <div class="insight-list">
+
+
+
+                        {% for insight in result.insights %}
+
+
+
+                        <div class="insight-row">
+
+
+
+                            <div class="signal"></div>
+
+
+
+                            <p>
+
+                                {{ insight }}
+
+                            </p>
+
+
+
+                        </div>
+
+
+
+                        {% endfor %}
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+                <!-- GROWTH -->
+
+
+
+                <div class="growth-panel">
+
+
+
+                    <div class="panel-title">
+
+
+
+                        <div class="panel-icon green">
+
+                            ↗
+
+                        </div>
+
+
+
+                        <div>
+
+
+
+                            <span>
+
+                                GROWTH ENGINE
+
+                            </span>
+
+
+
+                            <h3>
+
+                                Recommended actions
+
+                            </h3>
+
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+                    <div class="growth-list">
+
+
+
+                        {% for suggestion in result.suggestions %}
+
+
+
+                        <div class="growth-row">
+
+
+
+                            <div class="number">
+
+                                {{ loop.index }}
+
+                            </div>
+
+
+
+                            <div>
+
+
+
+                                <strong>
+
+                                    Growth opportunity
+
+                                </strong>
+
+
+
+                                <p>
+
+                                    {{ suggestion }}
+
+                                </p>
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+                        {% endfor %}
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <!-- STATISTICS -->
+
+
+
+            <div class="stats-panel">
+
+
+
+                <div class="panel-title">
+
+
+
+                    <div class="panel-icon purple">
+
+                        Σ
+
+                    </div>
+
+
+
+                    <div>
+
+
+
+                        <span>
+
+                            STATISTICAL ENGINE
+
+                        </span>
+
+
+
+                        <h3>
+
+                            Numeric column analysis
+
+                        </h3>
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+                <div class="stats-table-wrapper">
+
+
+
+                    <table class="stats-table">
+
+
+
+                        <thead>
+
+
+
+                        <tr>
+
+
+
+                            <th>Column</th>
+
+                            <th>Mean</th>
+
+                            <th>Median</th>
+
+                            <th>Minimum</th>
+
+                            <th>Maximum</th>
+
+                            <th>Total</th>
+
+
+
+                        </tr>
+
+
+
+                        </thead>
+
+
+
+
+
+                        <tbody>
+
+
+
+                        {% for stat in result.statistics %}
+
+
+
+                        <tr>
+
+
+
+                            <td>
+
+                                <strong>
+
+                                    {{ stat.column }}
+
+                                </strong>
+
+                            </td>
+
+
+
+                            <td>
+
+                                {{ stat.mean }}
+
+                            </td>
+
+
+
+                            <td>
+
+                                {{ stat.median }}
+
+                            </td>
+
+
+
+                            <td>
+
+                                {{ stat.min }}
+
+                            </td>
+
+
+
+                            <td>
+
+                                {{ stat.max }}
+
+                            </td>
+
+
+
+                            <td>
+
+                                {{ stat.sum }}
+
+                            </td>
+
+
+
+                        </tr>
+
+
+
+                        {% endfor %}
+
+
+
+                        </tbody>
+
+
+
+                    </table>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </section>
+
+
+
+
+
+        <!-- =================================================
+
+             DATA HEALTH
+
+        ================================================== -->
+
+
+
+        <section id="health"
+
+                 class="tab">
+
+
+
+            <div class="section-head">
+
+
+
+                <div>
+
+
+
+                    <span class="eyebrow">
+
+                        DATA QUALITY
+
+                    </span>
+
+
+
+                    <h2>
+
+                        Data health
+
+                    </h2>
+
+
+
+                    <p>
+
+                        Quality checks performed on your uploaded
+
+                        business dataset.
+
+                    </p>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <div class="health-grid">
+
+
+
+
+
+                <!-- ROWS -->
+
+
+
+                <div class="health-card">
+
+
+
+                    <div class="health-icon good">
+
+                        ✓
+
+                    </div>
+
+
+
+                    <span>
+
+                        DATASET SIZE
+
+                    </span>
+
+
+
+                    <strong>
+
+                        {{ result.kpis.rows }}
+
+                    </strong>
+
+
+
+                    <p>
+
+                        Records analyzed
+
+                    </p>
+
+
+
+                </div>
+
+
+
+
+
+                <!-- MISSING -->
+
+
+
+                <div class="health-card">
+
+
+
+                    <div class="health-icon
+
+                    {% if result.kpis.missing > 0 %}
+
+                        warning
+
+                    {% else %}
+
+                        good
+
+                    {% endif %}">
+
+
+
+                        {% if result.kpis.missing > 0 %}
+
+                            !
+
+                        {% else %}
+
+                            ✓
+
+                        {% endif %}
+
+
+
+                    </div>
+
+
+
+                    <span>
+
+                        MISSING VALUES
+
+                    </span>
+
+
+
+                    <strong>
+
+                        {{ result.kpis.missing }}
+
+                    </strong>
+
+
+
+                    <p>
+
+
+
+                        {% if result.kpis.missing == 0 %}
+
+                            Dataset is complete
+
+                        {% else %}
+
+                            Review missing records
+
+                        {% endif %}
+
+
+
+                    </p>
+
+
+
+                </div>
+
+
+
+
+
+                <!-- DUPLICATES -->
+
+
+
+                <div class="health-card">
+
+
+
+                    <div class="health-icon
+
+                    {% if result.kpis.duplicates > 0 %}
+
+                        warning
+
+                    {% else %}
+
+                        good
+
+                    {% endif %}">
+
+
+
+                        {% if result.kpis.duplicates > 0 %}
+
+                            !
+
+                        {% else %}
+
+                            ✓
+
+                        {% endif %}
+
+
+
+                    </div>
+
+
+
+                    <span>
+
+                        DUPLICATES
+
+                    </span>
+
+
+
+                    <strong>
+
+                        {{ result.kpis.duplicates }}
+
+                    </strong>
+
+
+
+                    <p>
+
+
+
+                        {% if result.kpis.duplicates == 0 %}
+
+                            No duplicates detected
+
+                        {% else %}
+
+                            Duplicate records found
+
+                        {% endif %}
+
+
+
+                    </p>
+
+
+
+                </div>
+
+
+
+
+
+                <!-- NUMERIC -->
+
+
+
+                <div class="health-card">
+
+
+
+                    <div class="health-icon good">
+
+                        Σ
+
+                    </div>
+
+
+
+                    <span>
+
+                        NUMERIC FIELDS
+
+                    </span>
+
+
+
+                    <strong>
+
+                        {{ result.kpis.numeric_columns }}
+
+                    </strong>
+
+
+
+                    <p>
+
+                        Analyzable numeric metrics
+
+                    </p>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <!-- HEALTH SUMMARY -->
+
+
+
+            <div class="health-summary">
+
+
+
+                <div class="health-score">
+
+
+
+                    <span>
+
+                        OVERALL DATA HEALTH
+
+                    </span>
+
+
+
+
+
+                    {% if result.kpis.missing == 0
+
+                          and result.kpis.duplicates == 0 %}
+
+
+
+                        <strong>
+
+                            Excellent
+
+                        </strong>
+
+
+
+                        <p>
+
+                            Your dataset is clean and ready
+
+                            for business analysis.
+
+                        </p>
+
+
+
+                    {% else %}
+
+
+
+                        <strong class="warning-text">
+
+                            Needs Attention
+
+                        </strong>
+
+
+
+                        <p>
+
+                            Review the highlighted data quality
+
+                            issues before making important decisions.
+
+                        </p>
+
+
+
+                    {% endif %}
+
+
+
+                </div>
+
+
+
+
+
+                <div class="health-details">
+
+
+
+                    <div>
+
+                        <span>ROWS</span>
+
+                        <strong>
+
+                            {{ result.kpis.rows }}
+
+                        </strong>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>COLUMNS</span>
+
+                        <strong>
+
+                            {{ result.kpis.columns }}
+
+                        </strong>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>MISSING</span>
+
+                        <strong>
+
+                            {{ result.kpis.missing }}
+
+                        </strong>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>DUPLICATES</span>
+
+                        <strong>
+
+                            {{ result.kpis.duplicates }}
+
+                        </strong>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        </section>
+
+
+
+        {% endif %}
+
+
+
+    </main>
+
+
 
 </div>
 
 
+
+
+
 <!-- =========================================================
-     JAVASCRIPT
-========================================================== -->
+
+     JAVASCRIPT
+
+\========================================================== -->
+
+
 
 <script>
 
-    function showTab(id, button = null) {
 
-        const tabs =
-            document.querySelectorAll(".tab");
 
-        tabs.forEach(tab => {
+    function showTab(id, button = null) {
 
-            tab.classList.remove("active");
 
-        });
 
+        const tabs =
 
-        const target =
-            document.getElementById(id);
+            document.querySelectorAll(".tab");
 
-        if (target) {
 
-            target.classList.add("active");
 
-        }
+        tabs.forEach(tab => {
 
 
-        const buttons =
-            document.querySelectorAll(".side-btn");
 
-        buttons.forEach(btn => {
+            tab.classList.remove("active");
 
-            btn.classList.remove("active");
 
-        });
 
+        });
 
-        if (button) {
 
-            button.classList.add("active");
 
-        }
-        else {
 
-            buttons.forEach(btn => {
 
-                const onclick =
-                    btn.getAttribute("onclick") || "";
+        const target =
 
-                if (onclick.includes("'" + id + "'")) {
+            document.getElementById(id);
 
-                    btn.classList.add("active");
 
-                }
 
-            });
+        if (target) {
 
-        }
 
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+            target.classList.add("active");
 
-    }
 
 
-    function searchTable() {
+        }
 
-        const input =
-            document.getElementById("tableSearch");
 
-        if (!input) return;
 
 
-        const filter =
-            input.value.toLowerCase();
 
+        const buttons =
 
-        const table =
-            document.querySelector(".data-table");
+            document.querySelectorAll(".side-btn");
 
-        if (!table) return;
 
 
-        const rows =
-            table.getElementsByTagName("tr");
+        buttons.forEach(btn => {
 
 
-        for (let i = 1; i < rows.length; i++) {
 
-            const text =
-                rows[i].innerText.toLowerCase();
+            btn.classList.remove("active");
 
 
-            rows[i].style.display =
-                text.includes(filter)
-                    ? ""
-                    : "none";
 
-        }
+        });
 
-    }
 
 
-    function showFileName(input) {
 
-        const box =
-            document.getElementById("selected-file");
 
-        if (!box) return;
+        if (button) {
 
 
-        if (input.files.length > 0) {
 
-            box.innerHTML =
-                "✓ " +
-                input.files[0].name;
+            button.classList.add("active");
 
-            box.classList.add("visible");
 
-        }
 
-    }
+        }
 
+        else {
 
-    /* PDF / page buttons */
 
-    document.addEventListener(
-        "click",
-        function(event) {
 
-            const link =
-                event.target.closest(".quick-pdf");
+            buttons.forEach(btn => {
 
-            if (link) {
 
-                link.classList.add("loading");
 
-                setTimeout(() => {
+                const onclick =
 
-                    link.classList.remove("loading");
+                    btn.getAttribute("onclick") || "";
 
-                }, 1200);
 
-            }
 
-        }
-    );
+                if (onclick.includes("'" + id + "'")) {
 
 
-    /* File drag visual */
 
-    const dropZone =
-        document.querySelector(".drop-zone");
+                    btn.classList.add("active");
 
-    const fileInput =
-        document.getElementById("excelFile");
 
 
-    if (dropZone && fileInput) {
+                }
 
-        ["dragenter", "dragover"].forEach(
-            eventName => {
 
-                dropZone.addEventListener(
-                    eventName,
-                    function(event) {
 
-                        event.preventDefault();
+            });
 
-                        dropZone.classList.add(
-                            "drag-active"
-                        );
 
-                    }
-                );
 
-            }
-        );
+        }
 
 
-        ["dragleave", "drop"].forEach(
-            eventName => {
 
-                dropZone.addEventListener(
-                    eventName,
-                    function(event) {
 
-                        event.preventDefault();
 
-                        dropZone.classList.remove(
-                            "drag-active"
-                        );
+        window\.scrollTo({
 
-                    }
-                );
+            top: 0,
 
-            }
-        );
+            behavior: "smooth"
 
-    }
+        });
+
+
+
+    }
+
+
+
+
+
+    function searchTable() {
+
+
+
+        const input =
+
+            document.getElementById("tableSearch");
+
+
+
+        if (!input) return;
+
+
+
+
+
+        const filter =
+
+            input.value.toLowerCase();
+
+
+
+
+
+        const table =
+
+            document.querySelector(".data-table");
+
+
+
+        if (!table) return;
+
+
+
+
+
+        const rows =
+
+            table.getElementsByTagName("tr");
+
+
+
+
+
+        for (let i = 1; i < rows.length; i++) {
+
+
+
+            const text =
+
+                rows[i].innerText.toLowerCase();
+
+
+
+
+
+            rows[i].style.display =
+
+                text.includes(filter)
+
+                    ? ""
+
+                    : "none";
+
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+    function showFileName(input) {
+
+
+
+        const box =
+
+            document.getElementById("selected-file");
+
+
+
+        if (!box) return;
+
+
+
+
+
+        if (input.files.length > 0) {
+
+
+
+            box.innerHTML =
+
+                "✓ " +
+
+                input.files[0].name;
+
+
+
+            box.classList.add("visible");
+
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+    /\* PDF / page buttons \*/
+
+
+
+    document.addEventListener(
+
+        "click",
+
+        function(event) {
+
+
+
+            const link =
+
+                event.target.closest(".quick-pdf");
+
+
+
+            if (link) {
+
+
+
+                link.classList.add("loading");
+
+
+
+                setTimeout(() => {
+
+
+
+                    link.classList.remove("loading");
+
+
+
+                }, 1200);
+
+
+
+            }
+
+
+
+        }
+
+    );
+
+
+
+
+
+    /\* File drag visual \*/
+
+
+
+    const dropZone =
+
+        document.querySelector(".drop-zone");
+
+
+
+    const fileInput =
+
+        document.getElementById("excelFile");
+
+
+
+
+
+    if (dropZone && fileInput) {
+
+
+
+        ["dragenter", "dragover"].forEach(
+
+            eventName => {
+
+
+
+                dropZone.addEventListener(
+
+                    eventName,
+
+                    function(event) {
+
+
+
+                        event.preventDefault();
+
+
+
+                        dropZone.classList.add(
+
+                            "drag-active"
+
+                        );
+
+
+
+                    }
+
+                );
+
+
+
+            }
+
+        );
+
+
+
+
+
+        ["dragleave", "drop"].forEach(
+
+            eventName => {
+
+
+
+                dropZone.addEventListener(
+
+                    eventName,
+
+                    function(event) {
+
+
+
+                        event.preventDefault();
+
+
+
+                        dropZone.classList.remove(
+
+                            "drag-active"
+
+                        );
+
+
+
+                    }
+
+                );
+
+
+
+            }
+
+        );
+
+
+
+    }
+
+
 
 </script>
 
+
+
 </body>
+
 </html>
